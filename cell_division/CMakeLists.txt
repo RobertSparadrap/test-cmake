@@ -12,13 +12,21 @@
 #
 # -----------------------------------------------------------------------------
 
-# setup google benchmark
-ExternalProject_Add(
-	benchmark 
-  	URL "${CMAKE_SOURCE_DIR}/third_party/benchmark.zip"
-  	PREFIX "${CMAKE_CURRENT_BINARY_DIR}/benchmark"
-	CMAKE_CACHE_ARGS
-    		-DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
-    		-DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
-  	INSTALL_COMMAND ""
-)
+cmake_minimum_required(VERSION 3.2.0)
+
+project(cell_division)
+
+find_package(BioDynaMo REQUIRED)
+find_package(benchmark REQUIRED)
+include("${BDM_USE_FILE}")
+include_directories("src")
+
+target_link_libraries(benchmark::benchmark)
+
+file(GLOB_RECURSE HEADERS src/*.h)
+file(GLOB_RECURSE SOURCES src/*.cc)
+
+bdm_add_executable(cell_division
+                   HEADERS "${HEADERS}"
+                   SOURCES "${SOURCES}"
+                   LIBRARIES ${BDM_REQUIRED_LIBRARIES} benchmark)
