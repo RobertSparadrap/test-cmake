@@ -42,9 +42,7 @@ if(biodynamo)
 	project(bdm)
 	find_package(BioDynaMo REQUIRED)
 	include(${BDM_USE_FILE})
-	include_directories("src")
-
-	target_link_libraries(benchmark::benchmark)
+	include_directories("${CMAKE_BINARY_DIR}/cell_division/src/")
 
 	file(GLOB_RECURSE HEADERS cell_division/src/*.h)
 	file(GLOB_RECURSE SOURCES cell_division/src/*.cc)
@@ -52,7 +50,7 @@ if(biodynamo)
 	bdm_add_executable(bdm
     	               HEADERS ${HEADERS}
         	           SOURCES ${SOURCES}
-            	       LIBRARIES ${BDM_REQUIRED_LIBRARIES} benchmark)
+            	       LIBRARIES ${BDM_REQUIRED_LIBRARIES})
 endif()
 
 if(bench-bdm)
